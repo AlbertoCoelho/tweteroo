@@ -6,21 +6,25 @@ const server = express();
 server.use(json());
 server.use(cors());
 
-const user = [];
+const users = [];
 const tweet = [];
 
 server.post("/sign-up", (req,res) => {
   const body = req.body;
-  user.push(body);
+  users.push(body);
   res.send("OK");
 })
 
 server.post("/tweets", (req,res) => {
-  res.send("post");
+  const body = req.body;
+  console.log(users);
+  const user = users.find(user => user.username === body.username);
+  tweet.push({ ...body, avatar: user.avatar });
+  res.send("OK");
 });
 
 server.get("/tweets", (req,res) => {
-  res.send("get");
+  res.send(tweet);
 });
 
 
