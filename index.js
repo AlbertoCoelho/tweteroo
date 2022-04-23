@@ -17,21 +17,15 @@ server.post("/sign-up", (req,res) => {
 
 server.post("/tweets", (req,res) => {
   const body = req.body;
-  console.log(users);
   const user = users.find(user => user.username === body.username);
   tweet.push({ ...body, avatar: user.avatar });
   res.send("OK");
 });
 
 server.get("/tweets", (req,res) => {
-  res.send(tweet);
+  const tweetfilter = tweet.slice(-10).reverse();
+  res.send(tweetfilter);
 });
-
-
-
-
-
-
 
 server.listen(5000, () => {
   console.log(chalk.bold.green('Running on http://localhost:5000'));
