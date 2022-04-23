@@ -10,7 +10,9 @@ const user = [];
 const tweet = [];
 
 server.post("/sign-up", (req,res) => {
-  res.send("post");
+  const body = req.body;
+  user.push(body);
+  res.send("OK");
 })
 
 server.post("/tweets", (req,res) => {
