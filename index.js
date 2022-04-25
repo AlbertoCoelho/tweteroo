@@ -7,7 +7,7 @@ server.use(json());
 server.use(cors());
 
 const users = [];
-const tweet = [];
+const tweets = [];
 
 server.post("/sign-up", (req,res) => {
   const body = req.body;
@@ -23,19 +23,24 @@ server.post("/sign-up", (req,res) => {
 server.post("/tweets", (req,res) => {
   const body = req.body;
   const user = users.find(user => user.username === body.username);
-  if(body.username === '' || body.tweet === ''){
+  if(body.username === '' || body.tweets === ''){
     res.status(400).send("Todos os campos são obrigatórios!");
     return;
   }
 
-  tweet.push({ ...body, avatar: user.avatar });
+  tweets.push({ ...body, avatar: user.avatar });
   res.sendStatus(201);
 });
 
 server.get("/tweets", (req,res) => {
-  const tweetfilter = tweet.slice(-10).reverse();
+  const tweetfilter = tweets.slice(-10).reverse();
   res.send(tweetfilter);
 });
+
+server.get("/tweets/:user", (req,res) => {
+  const userTweets = tweets.filter(usertweet => usertweet.username === req.params.user);
+  res.send(userTweets);
+})
 
 server.listen(5000, () => {
   console.log(chalk.bold.green('Running on http://localhost:5000'));
